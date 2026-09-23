@@ -21,18 +21,20 @@
 <section class="card"><div class="grid">
 <div><label>客戶名稱</label><input id="customer" placeholder="公司名稱"></div>
 <div><label>報價日期</label><input id="date" type="date"></div>
+<div><label>報價單號</label><input id="quoteNo" readonly></div>
+<div><label>有效期限</label><input id="validUntil" value="報價日起30天"></div>
 <div class="full"><label>地址</label><input id="address"></div>
 <div><label>電話</label><input id="phone"></div><div><label>傳真</label><input id="fax"></div>
 <div><label>聯絡人</label><input id="contact"></div><div><label>部門</label><input id="dept"></div>
 <div><label>條件價格</label><input id="priceTerms" value="台灣含稅"></div><div><label>付款方式</label><input id="payment" value="月結30天"></div>
 <div><label>交貨期</label><input id="delivery" value="收到訂單後4-6週"></div><div><label>檔名</label><input id="filename" placeholder="例如：報價單_客戶名稱_日期"></div>
 </div></section>
-<section class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>報價項目</b><button class="btn orange" onclick="addItem()">＋ 新增項目</button></div><div id="items" class="items"></div>
+<section class="card"><div style="display:flex;justify-content:space-between;align-items:center"><b>報價項目</b><button class="btn light" onclick="quickProduct()">📦 常用產品</button><button class="btn orange" onclick="addItem()">＋ 新增項目</button></div><div id="items" class="items"></div>
 <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px"><label style="margin:0">營業稅 5%</label><input id="tax" type="checkbox" checked style="width:22px;height:22px"></div>
 <div style="text-align:right;margin-top:12px">未稅：<b id="subTotal">NT$ 0</b><br>稅額：<b id="taxTotal">NT$ 0</b><div class="total">總計：<span id="grandTotal">NT$ 0</span></div></div></section>
 <section class="card"><label>備註</label><textarea id="remarks" placeholder="報價有效期限、補充說明等"></textarea></section>
 <section class="card actions"><button class="btn primary" onclick="saveQuote()">💾 儲存報價</button><button class="btn orange" onclick="generatePDF()">📄 匯出 A4 PDF</button></section>
-<section class="card history"><b>最近報價紀錄</b><div id="history"></div></section>
+<section class="card history"><b>最近報價紀錄</b><div id="history"></div></section><section class="card"><b>常用產品</b><div class="muted" style="margin-top:6px">可直接輸入產品名稱與單價，之後可快速帶入報價。</div><div id="products"></div><button class="btn light" style="margin-top:10px" onclick="addProduct()">＋ 新增常用產品</button></section>
 </main>
 <div id="pdfWrap"><div id="pdf">
 <div class="pdfhead"><b>承邦有限公司</b><div>CHEN BOM TRADING CO., LTD.</div><div style="font-size:12px">Tel: 02-8647-2988　 Fax: 02-8647-2977　 www.cbtrade.com.tw</div></div>
@@ -45,6 +47,14 @@
 const $=id=>document.getElementById(id);let items=[];
 const money=n=>"NT$ "+Math.round(Number(n)||0).toLocaleString("zh-TW");
 $("date").value=new Date().toISOString().slice(0,10);
+function newQuoteNo(){const d=new Date();const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");const key="cbQuoteSeq_"+y+m+day;let n=+(localStorage.getItem(key)||0)+1;localStorage.setItem(key,n);return "CB"+y+m+day+"-"+String(n).padStart(3,"0")}
+function ensureQuoteNo(){if(!$("quoteNo").value)$("quoteNo").value=newQuoteNo()}
+const defaultProducts=[{name:"VECTECH S8 智能精密焊台",price:0,unit:"台"},{name:"BGA4500 紅外線返修設備",price:0,unit:"台"},{name:"RV-W473N 選擇性波峰焊接設備",price:0,unit:"台"}];
+function getProducts(){return JSON.parse(localStorage.getItem("cbProducts")||"null")||defaultProducts}
+function renderProducts(){const p=getProducts();$("products").innerHTML=p.map((x,i)=>'<button class="history" style="display:block;border:1px solid #e5e7eb;margin-top:8px;padding:10px" onclick="useProduct('+i+')"><b>'+esc(x.name)+'</b><br><span class="muted">'+esc(x.unit)+'　'+money(x.price)+'</span></button>').join("")}
+function useProduct(i){const p=getProducts()[i];addItem({name:p.name,qty:1,unit:p.unit||"台",price:+p.price||0});window.scrollTo({top:0,behavior:"smooth"})}
+function quickProduct(){document.getElementById("products").scrollIntoView({behavior:"smooth"})}
+function addProduct(){const name=prompt("輸入產品名稱");if(!name)return;const price=Number(prompt("輸入單價","0")||0);const unit=prompt("輸入單位","台")||"台";const p=getProducts();p.push({name,price,unit});localStorage.setItem("cbProducts",JSON.stringify(p));renderProducts()}
 function addItem(v={name:"",qty:1,unit:"台",price:0}){items.push(v);renderItems()}
 function renderItems(){ $("items").innerHTML=items.map((x,i)=>`<div class="item">
 <div><label>型號品名</label><input value="${esc(x.name)}" oninput="items[${i}].name=this.value"></div>
@@ -54,11 +64,11 @@ function renderItems(){ $("items").innerHTML=items.map((x,i)=>`<div class="item"
 <button class="btn danger" onclick="items.splice(${i},1);renderItems()">×</button></div>`).join("");calc()}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
 function calc(){let sub=items.reduce((a,x)=>a+(+x.qty||0)*(+x.price||0),0),tax=$("tax").checked?Math.round(sub*.05):0;$("subTotal").textContent=money(sub);$("taxTotal").textContent=money(tax);$("grandTotal").textContent=money(sub+tax);return{sub,tax,total:sub+tax}}
-function data(){return{customer:$("customer").value,date:$("date").value,address:$("address").value,phone:$("phone").value,fax:$("fax").value,contact:$("contact").value,dept:$("dept").value,priceTerms:$("priceTerms").value,payment:$("payment").value,delivery:$("delivery").value,filename:$("filename").value,remarks:$("remarks").value,tax:$("tax").checked,items:[...items],savedAt:new Date().toISOString()}}
-function saveQuote(){const d=data();let h=JSON.parse(localStorage.getItem("cbQuotes")||"[]");h.unshift(d);localStorage.setItem("cbQuotes",JSON.stringify(h.slice(0,50)));renderHistory();alert("報價單已儲存")}
+function data(){return{customer:$("customer").value,date:$("date").value,quoteNo:$("quoteNo").value,validUntil:$("validUntil").value,address:$("address").value,phone:$("phone").value,fax:$("fax").value,contact:$("contact").value,dept:$("dept").value,priceTerms:$("priceTerms").value,payment:$("payment").value,delivery:$("delivery").value,filename:$("filename").value,remarks:$("remarks").value,tax:$("tax").checked,items:[...items],savedAt:new Date().toISOString()}}
+function saveQuote(){ensureQuoteNo();const d=data();let h=JSON.parse(localStorage.getItem("cbQuotes")||"[]");h.unshift(d);localStorage.setItem("cbQuotes",JSON.stringify(h.slice(0,50)));renderHistory();alert("報價單已儲存\n報價單號："+d.quoteNo)}
 function renderHistory(){let h=JSON.parse(localStorage.getItem("cbQuotes")||"[]");$("history").innerHTML=h.length?h.map((x,i)=>`<button onclick="loadQuote(${i})"><b>${esc(x.customer||"未填客戶")}</b><br><span class="muted">${x.date||""}　${money((x.items||[]).reduce((a,y)=>a+(+y.qty||0)*(+y.price||0),0))}</span></button>`).join(""):'<div class="muted" style="padding:12px 0">尚無紀錄</div>'}
-function loadQuote(i){let x=JSON.parse(localStorage.getItem("cbQuotes")||"[]")[i];["customer","date","address","phone","fax","contact","dept","priceTerms","payment","delivery","filename","remarks"].forEach(k=>$(k).value=x[k]||"");$("tax").checked=x.tax!==false;items=x.items||[];renderItems()}
-function generatePDF(){const d=data(),t=calc();$("pdfMeta").innerHTML=[["客戶名稱",d.customer],["日期",d.date],["地址",d.address],["條件價格",d.priceTerms],["電話",d.phone],["付款方式",d.payment],["傳真",d.fax],["交貨期",d.delivery],["聯絡人",d.contact],["部門",d.dept]].map(x=>`<div><b>${x[0]}：</b>${esc(x[1])}</div>`).join("");$("pdfItems").innerHTML=items.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${x.qty}</td><td>${esc(x.unit)}</td><td style="text-align:right">${money(x.price)}</td><td style="text-align:right">${money((+x.qty||0)*(+x.price||0))}</td></tr>`).join("");$("pSub").textContent=money(t.sub);$("pTax").textContent=money(t.tax);$("pGrand").innerHTML="<b>"+money(t.total)+"</b>";$("pdfNotes").textContent=d.remarks||"";const name=(d.filename||("報價單_"+(d.customer||"客戶")+"_"+d.date)).replace(/\.pdf$/i,"")+".pdf";html2pdf().set({margin:0,filename:name,image:{type:"jpeg",quality:.98},html2canvas:{scale:2,useCORS:true,allowTaint:false},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}}).from($("pdf")).save()}
-addItem();renderHistory();
+function loadQuote(i){let x=JSON.parse(localStorage.getItem("cbQuotes")||"[]")[i];["customer","date","quoteNo","validUntil","address","phone","fax","contact","dept","priceTerms","payment","delivery","filename","remarks"].forEach(k=>$(k).value=x[k]||"");$("tax").checked=x.tax!==false;items=x.items||[];renderItems()}
+function generatePDF(){const d=data(),t=calc();$("pdfMeta").innerHTML=[["客戶名稱",d.customer],["日期",d.date],["報價單號",d.quoteNo],["有效期限",d.validUntil],["地址",d.address],["條件價格",d.priceTerms],["電話",d.phone],["付款方式",d.payment],["傳真",d.fax],["交貨期",d.delivery],["聯絡人",d.contact],["部門",d.dept]].map(x=>`<div><b>${x[0]}：</b>${esc(x[1])}</div>`).join("");$("pdfItems").innerHTML=items.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.name)}</td><td>${x.qty}</td><td>${esc(x.unit)}</td><td style="text-align:right">${money(x.price)}</td><td style="text-align:right">${money((+x.qty||0)*(+x.price||0))}</td></tr>`).join("");$("pSub").textContent=money(t.sub);$("pTax").textContent=money(t.tax);$("pGrand").innerHTML="<b>"+money(t.total)+"</b>";$("pdfNotes").textContent=d.remarks||"";const name=(d.filename||("報價單_"+(d.customer||"客戶")+"_"+(d.quoteNo||d.date))).replace(/\.pdf$/i,"")+".pdf";html2pdf().set({margin:0,filename:name,image:{type:"jpeg",quality:.98},html2canvas:{scale:2,useCORS:true,allowTaint:false},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}}).from($("pdf")).save()}
+ensureQuoteNo();addItem();renderHistory();renderProducts();
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script></body></html>
