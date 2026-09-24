@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="880" viewBox="0 0 680 880">
+<rect width="680" height="880" fill="#fff"/>
+<g fill="#111" font-family="Noto Serif TC,PMingLiU,MingLiU,DFKai-SB,serif">
+<text x="340" y="103" font-size="28" text-anchor="middle">承邦有限公司</text>
+<text x="340" y="126" font-size="19" text-anchor="middle">CHEN BOM TRADING CO., LTD.</text>
+<text x="340" y="157" font-size="14" font-weight="700" text-anchor="middle">22103 新北市汐止區大同路三段190號8樓</text>
+<text x="340" y="199" font-size="14" font-weight="700" text-anchor="middle">Tel：02-8647-2988　 Fax：02-8647-2977</text>
+<text x="340" y="231" font-size="17" font-weight="700" text-anchor="middle">E - MAIL：vectech_115@cbtrade.com.tw</text>
+<text x="340" y="252" font-size="13" text-anchor="middle">www.cbtrade.com.tw</text>
+<text x="340" y="283" font-size="28" text-anchor="middle">報 價 單</text>
+<text x="83" y="306" font-size="13">客 戶 名 稱：</text><text id="customer" x="210" y="306" font-size="13">{{CUSTOMER}}</text>
+<text x="367" y="306" font-size="13">日　期：</text><text id="date" x="463" y="306" font-size="13">{{DATE}}</text>
+<text x="83" y="329" font-size="13">地　　址：</text><text id="address" x="210" y="329" font-size="13">{{ADDRESS}}</text>
+<text x="367" y="329" font-size="13">條件價格：</text><text id="priceTerms" x="463" y="329" font-size="13">{{PRICETERMS}}</text>
+<text x="83" y="352" font-size="13">電　　話：</text><text id="phone" x="210" y="352" font-size="13">{{PHONE}}</text>
+<text x="83" y="375" font-size="13">傳　　真：</text><text id="fax" x="210" y="375" font-size="13">{{FAX}}</text>
+<text x="367" y="375" font-size="13">付款方式：</text><text id="payment" x="463" y="375" font-size="13">{{PAYMENT}}</text>
+<text x="83" y="398" font-size="13">聯 絡 人：</text><text id="contact" x="210" y="398" font-size="13">{{CONTACT}}</text>
+<text x="252" y="398" font-size="13">部門：</text><text id="dept" x="307" y="398" font-size="13">{{DEPT}}</text>
+<text x="367" y="398" font-size="13">交 貨 期：</text><text id="delivery" x="463" y="398" font-size="13">{{DELIVERY}}</text>
+</g>
+<g stroke="#111" fill="#fff">
+<rect x="56" y="415" width="534" height="232" stroke-width="1.5"/>
+<g stroke-width="1">
+<line x1="103" y1="415" x2="103" y2="584"/><line x1="206" y1="415" x2="206" y2="584"/>
+<line x1="366" y1="415" x2="366" y2="584"/><line x1="406" y1="415" x2="406" y2="584"/>
+<line x1="447" y1="415" x2="447" y2="647"/><line x1="504" y1="415" x2="504" y2="647"/>
+<line x1="590" y1="415" x2="590" y2="647"/>
+<line x1="56" y1="436" x2="590" y2="436"/><line x1="56" y1="457" x2="590" y2="457"/>
+<line x1="56" y1="479" x2="590" y2="479"/><line x1="56" y1="500" x2="590" y2="500"/>
+<line x1="56" y1="521" x2="590" y2="521"/><line x1="56" y1="542" x2="590" y2="542"/>
+<line x1="56" y1="563" x2="590" y2="563"/><line x1="56" y1="584" x2="590" y2="584"/>
+<line x1="447" y1="605" x2="590" y2="605"/><line x1="447" y1="626" x2="590" y2="626"/><line x1="56" y1="647" x2="590" y2="647"/>
+</g></g>
+<g fill="#111" font-family="Noto Serif TC,PMingLiU,MingLiU,DFKai-SB,serif" font-size="12.5" text-anchor="middle" font-weight="700">
+<text x="79.5" y="430">項目</text><text x="154.5" y="430">型號</text><text x="286" y="430">品名</text><text x="386" y="430">數量</text><text x="426.5" y="430">單位</text><text x="475.5" y="430">單價</text><text x="547" y="430">合計</text>
+</g>
+<g id="rows" fill="#111" font-family="Noto Serif TC,PMingLiU,MingLiU,DFKai-SB,serif" font-size="12.5" text-anchor="middle">
+__ROWS__
+</g>
+<g fill="#111" font-family="Noto Serif TC,PMingLiU,MingLiU,DFKai-SB,serif">
+<text x="65" y="604" font-size="12.5">備 註：1.本報價單有效期限30天</text>
+<text x="83" y="625" font-size="12.5">2.以上報價單未含5%營業稅</text>
+<text x="472" y="602" font-size="12.5" text-anchor="middle">合　計</text><text x="547" y="602" font-size="12.5" text-anchor="middle">{{SUB}}</text>
+<text x="472" y="623" font-size="12.5" text-anchor="middle">5% 稅</text><text x="547" y="623" font-size="12.5" text-anchor="middle">{{TAX}}</text>
+<text x="472" y="644" font-size="13.5" font-weight="700" text-anchor="middle">總　計</text><text x="547" y="644" font-size="13.5" font-weight="700" text-anchor="middle">{{GRAND}}</text>
+<text x="56" y="680" font-size="12.5">* BGA/SMT維修設備</text><text x="243" y="680" font-size="12.5">* 錫煙濾靜設備</text>
+<text x="56" y="707" font-size="12.5">* 高性能焊錫烙鐵除錫設備</text><text x="243" y="707" font-size="12.5">* 點膠設備</text>
+<text x="56" y="734" font-size="12.5">* ESD靜電防護設備，測試儀器</text><text x="276" y="734" font-size="12.5">* 電子五金工具</text>
+<text x="56" y="761" font-size="12.5">* 繞線/剝線工具，各式鍍銀線材(Kynar Wire)</text>
+<text x="364" y="788" font-size="13">經 辦 人：陳丁照 EXT:115</text><text x="364" y="812" font-size="13">0963-351-871</text>
+</g>
+<image href="data:image/jpeg;base64,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" x="386" y="650" width="105" height="68" preserveAspectRatio="xMidYMid meet"/>
+</svg>
