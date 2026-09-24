@@ -19,14 +19,8 @@ input,textarea{width:100%;padding:11px;border:1px solid #d7dee8;border-radius:10
 .history button,.products button{width:100%;text-align:left;border:1px solid #e5e7eb;background:#f8fafc;padding:10px;border-radius:10px;margin-top:8px}
 .sectionHead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.rightBtns{display:flex;gap:8px;flex-wrap:wrap}
 #pdfWrap{position:fixed;left:-12000px;top:0;width:816px;height:1056px}
-#pdf{position:relative;width:816px;height:1056px;background:#fff;color:#111;overflow:hidden;font-family:"Noto Serif TC","PMingLiU","Microsoft JhengHei",serif}
-.px{position:absolute;white-space:nowrap;overflow:hidden;line-height:1.25}
-.pdfCompany{top:32px;left:0;width:816px;text-align:center}.pdfCompany .cn{font-size:31px;letter-spacing:5px}.pdfCompany .en{font-size:20px;font-style:italic;margin-top:2px}.pdfCompany .addr{font-size:14px;font-weight:700;margin-top:18px}.pdfCompany .tel{font-size:14px;font-weight:700;margin-top:17px}.pdfCompany .email{font-size:17px;font-weight:700;margin-top:17px}.pdfCompany .web{font-size:14px;color:#1648a7;text-decoration:underline;margin-top:3px}
-.pdfTitle{top:222px;left:0;width:816px;text-align:center;font-size:29px;letter-spacing:10px}
-.info{position:absolute;left:56px;top:266px;width:704px;font-size:14px;line-height:34px}.infoRow{display:grid;align-items:center}.info4{grid-template-columns:92px 260px 92px 260px}.infoLabel{white-space:nowrap}.infoValue{white-space:nowrap;overflow:hidden;text-overflow:clip}
-.pdfTable{position:absolute;left:56px;top:498px;width:704px;border:1.7px solid #111;font-size:13px}.pdfTr{display:grid;grid-template-columns:56px 124px 194px 48px 50px 70px 102px;min-height:29px}.pdfCell{display:flex;align-items:center;justify-content:center;border-right:1px solid #111;border-bottom:1px solid #111;padding:0 3px;min-width:0;overflow:hidden;white-space:nowrap}.pdfTr .pdfCell:last-child{border-right:0}.pdfTr:last-child .pdfCell{border-bottom:0}.pdfTh{font-weight:700}
-.pdfBottom{display:grid;grid-template-columns:504px 200px}.notes{padding:6px 10px;line-height:28px}.totals{border-left:1px solid #111}.totr{height:28px;display:grid;grid-template-columns:100px 100px}.totc{padding:4px 6px;border-bottom:1px solid #111}.totr:last-child .totc{border-bottom:0}.totr .totc+ .totc{border-left:1px solid #111;text-align:center}
-.services{position:absolute;left:56px;top:820px;font-size:13px;line-height:26px}.stamp{position:absolute;left:488px;top:812px;width:105px}.stamp img{display:block;width:100px;height:auto}.agent{position:absolute;right:56px;top:940px;font-size:14px;line-height:24px}
+#pdf{width:816px;height:1056px;background:#fff;overflow:hidden}
+#pdf svg{display:block;width:816px;height:1056px}
 @media(max-width:620px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.actions{grid-template-columns:1fr}.item{grid-template-columns:1fr 1fr 1fr}.rightBtns{width:100%}.rightBtns .btn{flex:1}}
 </style>
 </head>
@@ -66,28 +60,8 @@ input,textarea{width:100%;padding:11px;border:1px solid #d7dee8;border-radius:10
 </div>
 <div class="pdfTable"><div class="pdfTr pdfTh"><div class="pdfCell">項目</div><div class="pdfCell">型號</div><div class="pdfCell">品名</div><div class="pdfCell">數量</div><div class="pdfCell">單位</div><div class="pdfCell">單價</div><div class="pdfCell">合計</div></div>
 <div id="pdfTableRows"></div>
-<div class="pdfBottom"><div class="notes">備註：1.本報價單有效期限30天<br>　　　　2.以上報價單未含5%營業稅</div><div class="totals"><div class="totr"><div class="totc">合　計</div><div id="pSub" class="totc"></div></div><div class="totr"><div class="totc">5% 稅</div><div id="pTax" class="totc"></div></div><div class="totr"><div class="totc">總　計</div><div id="pGrand" class="totc"><b></b></div></div></div></div></div>
-<div class="services">* BGA/SMT維修設備　　　* 錫煙濾靜設備<br>* 高性能焊錫烙鐵除錫設備　　* 點膠設備<br>* ESD靜電防護設備，測試儀器　* 電子五金工具<br>* 繞線/剝線工具，各式鍍銀線材(Kynar Wire)</div>
-<div class="stamp"><img alt="公司大小章" src="data:image/jpeg;base64,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"></div>
-<div class="agent">經 辦 人：陳丁照 EXT:115<br>0963-351-871</div>
-</div></div>
-
-<script>
-var $=function(id){return document.getElementById(id)},items=[];
-var money=function(n){return "NT$ "+Math.round(Number(n)||0).toLocaleString("zh-TW")};
-var plainMoney=function(n){return Math.round(Number(n)||0).toLocaleString("zh-TW")};
-var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]})};
-function fmtDate(v){if(!v)return "";var p=v.split("-");return p.length===3?p[0]+"/"+Number(p[1])+"/"+Number(p[2]):v}
-$("date").value=new Date().toISOString().slice(0,10);
-function newQuoteNo(){var d=new Date(),key="cbQuoteSeq_"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0"),n=Number(localStorage.getItem(key)||0)+1;localStorage.setItem(key,n);return "CB"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+String(n).padStart(3,"0")}
-function ensureQuoteNo(){if(!$("quoteNo").value)$("quoteNo").value=newQuoteNo()}
-var defaultProducts=[{name:"VECTECH S8 智能精密焊台",price:0,unit:"台"},{name:"BGA4500 紅外線返修設備",price:0,unit:"台"},{name:"RV-W473N 選擇性波峰焊接設備",price:0,unit:"台"}];
-function getProducts(){return JSON.parse(localStorage.getItem("cbProducts")||"null")||defaultProducts}
-function renderProducts(){var p=getProducts();$("products").innerHTML=p.map(function(x,i){return '<button onclick="useProduct('+i+')"><b>'+esc(x.name)+'</b><br><span class="muted">'+esc(x.unit)+'　'+money(x.price)+'</span></button>'}).join("")}
-function useProduct(i){var p=getProducts()[i];addItem({model:"",name:p.name,qty:1,unit:p.unit||"台",price:Number(p.price)||0});window.scrollTo({top:0,behavior:"smooth"})}
-function quickProduct(){$("products").scrollIntoView({behavior:"smooth"})}
-function addProduct(){var name=prompt("輸入產品名稱");if(!name)return;var price=Number(prompt("輸入單價","0")||0),unit=prompt("輸入單位","台")||"台",p=getProducts();p.push({name:name,price:price,unit:unit});localStorage.setItem("cbProducts",JSON.stringify(p));renderProducts()}
-function addItem(v){if(items.length>=7){alert("原始報價單只有 7 列，請先刪除既有項目。");return}items.push(v||{model:"",name:"",qty:1,unit:"台",price:0});renderItems()}
+<div class="pdfBottom"><div class="notes">備註：1.本報價單有效期限30天<br>　　　　2.以上報價單未含5%營業稅</div><div class="totals"><div class="totr"><div class="totc">合　計</div><div id="pSub" class="totc"></div></div><div class="totr"><div class="totc">5% 稅</div><div id="pTax" class="totc"></div></div><div class="totr"><div class=<div id="pdfWrap"><div id="pdf"></div></div>
+){alert("原始報價單只有 7 列，請先刪除既有項目。");return}items.push(v||{model:"",name:"",qty:1,unit:"台",price:0});renderItems()}
 function renderItems(){$("items").innerHTML=items.map(function(x,i){return '<div class="item">'
 +'<div><label>型號</label><input value="'+esc(x.model)+'" oninput="items['+i+'].model=this.value"></div>'
 +'<div><label>品名</label><input value="'+esc(x.name)+'" oninput="items['+i+'].name=this.value"></div>'
@@ -106,3 +80,93 @@ ensureQuoteNo();addItem();renderHistory();renderProducts();
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
 </script>
 </body></html>
+function buildPdfSvg(d,t){
+  var escXml=function(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&apos;")};
+  var stamp="data:image/jpeg;base64,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";
+  var rows=d.items||[], svg=[];
+  function tx(x,y,text,size,anchor,weight){svg.push('<text x="'+x+'" y="'+y+'" font-family="Noto Serif TC,PMingLiU,MingLiU,DFKai-SB,serif" font-size="'+(size||13)+'" font-weight="'+(weight||400)+'" text-anchor="'+(anchor||"start")+'" fill="#111">'+escXml(text)+'</text>')}
+  function line(x1,y1,x2,y2,w){svg.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#111" stroke-width="'+(w||1)+'"/>')}
+  svg.push('<svg xmlns="http://www.w3.org/2000/svg" width="680" height="880" viewBox="0 0 680 880">');
+  svg.push('<rect width="680" height="880" fill="#fff"/>');
+  tx(340,103,"承邦有限公司",28,"middle",400);
+  tx(340,126,"CHEN BOM TRADING CO., LTD.",19,"middle",400);
+  tx(340,157,"22103 新北市汐止區大同路三段190號8樓",14,"middle",700);
+  tx(340,199,"Tel：02-8647-2988　 Fax：02-8647-2977",14,"middle",700);
+  tx(340,231,"E - MAIL：vectech_115@cbtrade.com.tw",17,"middle",700);
+  tx(340,252,"www.cbtrade.com.tw",13,"middle",400);
+  tx(340,283,"報 價 單",28,"middle",400);
+
+  tx(83,306,"客 戶 名 稱：",13,"start",400);
+  tx(210,306,d.customer,13,"start",400);
+  tx(367,306,"日　期：",13,"start",400);
+  tx(463,306,fmtDate(d.date),13,"start",400);
+
+  tx(83,329,"地　　址：",13,"start",400);
+  tx(210,329,d.address,13,"start",400);
+  tx(367,329,"條件價格：",13,"start",400);
+  tx(463,329,d.priceTerms,13,"start",400);
+
+  tx(83,352,"電　　話：",13,"start",400);
+  tx(210,352,d.phone,13,"start",400);
+
+  tx(83,375,"傳　　真：",13,"start",400);
+  tx(210,375,d.fax,13,"start",400);
+  tx(367,375,"付款方式：",13,"start",400);
+  tx(463,375,d.payment,13,"start",400);
+
+  tx(83,398,"聯 絡 人：",13,"start",400);
+  tx(210,398,d.contact,13,"start",400);
+  tx(252,398,"部門：",13,"start",400);
+  tx(307,398,d.dept,13,"start",400);
+  tx(367,398,"交 貨 期：",13,"start",400);
+  tx(463,398,d.delivery,13,"start",400);
+
+  svg.push('<rect x="56" y="415" width="534" height="232" fill="#fff" stroke="#111" stroke-width="1.5"/>');
+  [103,206,366,406,447,504].forEach(function(x){line(x,415,x,584,1)});
+  line(590,415,590,647,1.3);
+  [436,457,479,500,521,542,563,584].forEach(function(y){line(56,y,590,y,1)});
+  line(447,584,447,647,1); line(504,584,504,647,1);
+  line(447,605,590,605,1); line(447,626,590,626,1); line(56,647,590,647,1);
+
+  var headers=["項目","型號","品名","數量","單位","單價","合計"];
+  var xs=[79.5,154.5,286,386,426.5,475.5,547];
+  headers.forEach(function(h,i){tx(xs[i],430,h,12.5,"middle",700)});
+  var xcenters=[79.5,154.5,286,386,426.5,475.5,547];
+  for(var i=0;i<7;i++){
+    var x=rows[i]||{model:"",name:"",qty:"",unit:"",price:""}, cy=451+i*21;
+    tx(xcenters[0],cy,String(i+1),12.5,"middle",400);
+    tx(xcenters[1],cy,x.model||"",12.5,"middle",400);
+    tx(xcenters[2],cy,x.name||"",12.5,"middle",400);
+    tx(xcenters[3],cy,x.qty==null||x.qty===""?"":String(x.qty),12.5,"middle",400);
+    tx(xcenters[4],cy,x.unit||"",12.5,"middle",400);
+    tx(xcenters[5],cy,x.price==null||x.price===""?"":plainMoney(x.price),12.5,"middle",400);
+    tx(xcenters[6],cy,x.price==null||x.price===""?"":plainMoney((Number(x.qty)||0)*(Number(x.price)||0)),12.5,"middle",400);
+  }
+  tx(65,604,"備 註：1.本報價單有效期限30天",12.5,"start",400);
+  tx(83,625,"2.以上報價單未含5%營業稅",12.5,"start",400);
+  tx(472,602,"合　計",12.5,"middle",400); tx(547,602,plainMoney(t.sub),12.5,"middle",400);
+  tx(472,623,"5% 稅",12.5,"middle",400); tx(547,623,plainMoney(t.tax),12.5,"middle",400);
+  tx(472,644,"總　計",13.5,"middle",700); tx(547,644,plainMoney(t.total),13.5,"middle",700);
+
+  tx(56,680,"* BGA/SMT維修設備",12.5,"start",400);
+  tx(243,680,"* 錫煙濾靜設備",12.5,"start",400);
+  tx(56,707,"* 高性能焊錫烙鐵除錫設備",12.5,"start",400);
+  tx(243,707,"* 點膠設備",12.5,"start",400);
+  tx(56,734,"* ESD靜電防護設備，測試儀器",12.5,"start",400);
+  tx(276,734,"* 電子五金工具",12.5,"start",400);
+  tx(56,761,"* 繞線/剝線工具，各式鍍銀線材(Kynar Wire)",12.5,"start",400);
+
+  if(stamp) svg.push('<image href="'+stamp+'" x="386" y="650" width="105" height="68" preserveAspectRatio="xMidYMid meet"/>');
+  tx(364,788,"經 辦 人：陳丁照 EXT:115",13,"start",400);
+  tx(364,812,"0963-351-871",13,"start",400);
+  svg.push('</svg>');
+  return svg.join("");
+}
+function renderPdfPreview(){try{var d=data(),t=calc();$("pdf").innerHTML=buildPdfSvg(d,t)}catch(e){console.error(e)}}
+function generatePDF(){
+  ensureQuoteNo();
+  var d=data(),t=calc();
+  $("pdf").innerHTML=buildPdfSvg(d,t);
+  var name=(d.filename||("報價單_"+(d.customer||"客戶")+"_"+fmtDate(d.date))).replace(/\.pdf$/i,"")+".pdf";
+  html2pdf().set({margin:0,filename:name,image:{type:"jpeg",quality:.98},html2canvas:{scale:2,useCORS:true,allowTaint:false,imageTimeout:0},jsPDF:{unit:"mm",format:"letter",orientation:"portrait"}}).from($("pdf")).save();
+}
