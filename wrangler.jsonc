@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "chenbom-mobile-quote-app",
+  "compatibility_date": "2026-09-24",
+  "assets": {
+    "directory": "."
+  }
+}
